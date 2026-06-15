@@ -48,25 +48,27 @@ async function handlePaste(ev: ClipboardEvent): Promise<void> {
     }
   }
 
-  const visibleAddresses = collectVisibleAddressesFromPage()
-  if (visibleAddresses.length > 0 && !visibleAddresses.includes(pastedAddr)) {
-    const similarOnPage = findSimilarInList(pastedAddr, visibleAddresses)
-    if (similarOnPage.length > 0) {
-      const ok = window.confirm(
-        [
-          '⚠️ Wallet Guard：疑似地址替换风险！',
-          '',
-          `当前粘贴：${pastedAddr}`,
-          `页面可见相似地址：${similarOnPage.slice(0, 3).join(', ')}`,
-          '',
-          '你粘贴的地址与页面展示地址不一致，仍要继续吗？',
-        ].join('\n'),
-      )
-      if (!ok) {
-        ev.preventDefault()
-        ev.stopPropagation()
+  if (settings.pageVisibleAddressGuard) {
+    const visibleAddresses = collectVisibleAddressesFromPage()
+    if (visibleAddresses.length > 0 && !visibleAddresses.includes(pastedAddr)) {
+      const similarOnPage = findSimilarInList(pastedAddr, visibleAddresses)
+      if (similarOnPage.length > 0) {
+        const ok = window.confirm(
+          [
+            '⚠️ Wallet Guard：疑似地址替换风险！',
+            '',
+            `当前粘贴：${pastedAddr}`,
+            `页面可见相似地址：${similarOnPage.slice(0, 3).join(', ')}`,
+            '',
+            '你粘贴的地址与页面展示地址不一致，仍要继续吗？',
+          ].join('\n'),
+        )
+        if (!ok) {
+          ev.preventDefault()
+          ev.stopPropagation()
+        }
+        return
       }
-      return
     }
   }
 

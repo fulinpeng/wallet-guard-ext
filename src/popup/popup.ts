@@ -59,6 +59,7 @@ async function renderList(): Promise<void> {
 async function loadSettingsForm(): Promise<void> {
   const s = await getSettings()
   ;($('clipboard-guard') as HTMLInputElement).checked = s.clipboardGuard
+  ;($('page-visible-guard') as HTMLInputElement).checked = s.pageVisibleAddressGuard
   ;($('similarity-guard') as HTMLInputElement).checked = s.similarityGuard
   ;($('chain-watch') as HTMLInputElement).checked = s.chainWatch
   ;($('rpc-bsc') as HTMLInputElement).value = s.rpcBsc
@@ -91,6 +92,7 @@ $('add-btn').addEventListener('click', async () => {
 $('save-settings').addEventListener('click', async () => {
   await saveSettings({
     clipboardGuard: ($('clipboard-guard') as HTMLInputElement).checked,
+    pageVisibleAddressGuard: ($('page-visible-guard') as HTMLInputElement).checked,
     similarityGuard: ($('similarity-guard') as HTMLInputElement).checked,
     chainWatch: ($('chain-watch') as HTMLInputElement).checked,
     rpcBsc: ($('rpc-bsc') as HTMLInputElement).value.trim(),

@@ -10,6 +10,7 @@ export interface TrustedAddress {
 
 export interface AppSettings {
   clipboardGuard: boolean
+  pageVisibleAddressGuard: boolean
   phishingBlock: boolean
   chainWatch: boolean
   similarityGuard: boolean
@@ -22,6 +23,7 @@ export interface AppSettings {
 
 export const DEFAULT_SETTINGS: AppSettings = {
   clipboardGuard: true,
+  pageVisibleAddressGuard: true,
   phishingBlock: true,
   chainWatch: true,
   similarityGuard: true,
