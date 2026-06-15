@@ -3,12 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Wallet Guard</title>
+    <title>钱包卫士</title>
     <link rel="stylesheet" href="./popup.css" />
   </head>
   <body>
     <header>
-      <h1>Wallet Guard</h1>
+      <h1>钱包卫士</h1>
       <p class="sub">个人地址守门员</p>
     </header>
 
@@ -16,19 +16,19 @@
       <h2>添加可信地址</h2>
       <label>
         备注
-        <input id="label" type="text" placeholder="例如：我的 BSC 收款" />
+        <input id="label" type="text" placeholder="例如：我的币安链收款" />
       </label>
       <label>
         链
         <select id="chain">
-          <option value="bsc">BSC</option>
-          <option value="ethereum">Ethereum</option>
-          <option value="hyperliquid">Hyperliquid</option>
+          <option value="bsc">币安链</option>
+          <option value="ethereum">以太坊</option>
+          <option value="hyperliquid">超流动</option>
         </select>
       </label>
       <label>
         地址
-        <input id="address" type="text" placeholder="0x..." />
+        <input id="address" type="text" placeholder="以 0x 开头的地址" />
       </label>
       <button id="add-btn" type="button">保存</button>
     </section>
@@ -54,18 +54,18 @@
       </label>
       <label class="row">
         <input id="chain-watch" type="checkbox" />
-        BSC 链上监控
+        币安链上监控
       </label>
       <label>
-        BSC RPC
+        币安链节点地址
         <input id="rpc-bsc" type="text" />
       </label>
       <label>
-        Telegram Bot Token
+        电报机器人令牌
         <input id="tg-token" type="password" placeholder="可选" />
       </label>
       <label>
-        Telegram Chat ID
+        电报会话编号
         <input id="tg-chat" type="text" placeholder="可选" />
       </label>
       <button id="save-settings" type="button">保存设置</button>

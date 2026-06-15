@@ -37,7 +37,7 @@ async function handlePaste(ev: ClipboardEvent): Promise<void> {
     if (expected && pastedAddr !== expected) {
       const ok = window.confirm(
         [
-          '⚠️ Wallet Guard：粘贴的地址与插件内复制的地址不一致！',
+          '⚠️ 钱包卫士：粘贴的地址与插件内复制的地址不一致！',
           '',
           `插件复制：${source.label}`,
           expected,
@@ -63,7 +63,7 @@ async function handlePaste(ev: ClipboardEvent): Promise<void> {
       if (similarOnPage.length > 0) {
         const ok = window.confirm(
           [
-            '⚠️ Wallet Guard：疑似地址替换风险！',
+            '⚠️ 钱包卫士：疑似地址替换风险！',
             '',
             `当前粘贴：${pastedAddr}`,
             formatPageAddressHints(similarOnPage, pageText),
@@ -87,7 +87,7 @@ async function handlePaste(ev: ClipboardEvent): Promise<void> {
     if (similar.length > 0) {
       const ok = window.confirm(
         [
-          '⚠️ Wallet Guard：疑似地址投毒！',
+          '⚠️ 钱包卫士：疑似地址投毒！',
           '',
           `粘贴地址：${pastedAddr}`,
           `与可信地址相似：${similar.join(', ')}`,

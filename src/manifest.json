@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "Wallet Guard",
-  "description": "个人 Web3 地址守门员：地址簿、剪贴板守护、签名校验、链上监控",
+  "name": "钱包卫士",
+  "description": "个人地址守门员：地址簿、剪贴板守护、签名校验、链上监控",
   "version": "0.1.0",
   "icons": {
     "16": "icons/icon16.png",
@@ -9,7 +9,7 @@
     "128": "icons/icon128.png"
   },
   "action": {
-    "default_title": "Wallet Guard",
+    "default_title": "钱包卫士",
     "default_popup": "src/popup/index.html"
   },
   "background": {

@@ -13,20 +13,20 @@ export function installEthereumHook(): void {
         const tx = args.params[0] as { to?: string; value?: string; data?: string }
         const parsed = parseSendTransaction(tx)
         const lines = [
-          'Wallet Guard 签名确认',
+          '钱包卫士 · 签名确认',
           `类型：${parsed.methodLabel}`,
-          `to：${parsed.to ?? '(无)'}`,
-          `value：${parsed.valueWei.toString()} wei`,
+          `接收地址：${parsed.to ?? '（无）'}`,
+          `金额：${parsed.valueWei.toString()}`,
         ]
         if (parsed.isApprove) {
-          lines.push(`spender：${parsed.approveSpender}`)
+          lines.push(`授权对象：${parsed.approveSpender}`)
           if (parsed.isUnlimitedApprove) {
             lines.push('⚠️ 无限授权！')
           }
         }
         const ok = window.confirm(lines.join('\n'))
         if (!ok) {
-          throw new Error('Wallet Guard: user rejected transaction')
+          throw new Error('钱包卫士：用户已拒绝交易')
         }
       }
 
@@ -38,10 +38,10 @@ export function installEthereumHook(): void {
       ) {
         const host = location.hostname
         const ok = window.confirm(
-          `Wallet Guard：站点 ${host} 请求签名\n\n确认这是你信任的操作吗？`,
+          `钱包卫士：站点 ${host} 请求签名\n\n确认这是你信任的操作吗？`,
         )
         if (!ok) {
-          throw new Error('Wallet Guard: user rejected sign request')
+          throw new Error('钱包卫士：用户已拒绝签名')
         }
       }
 

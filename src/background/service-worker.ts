@@ -42,8 +42,8 @@ async function pollBalances(): Promise<void> {
       if (prevWei !== null) {
         if (balance > prevWei) {
           const delta = formatEther(balance - prevWei)
-          await notify('Wallet Guard · 到账', `${item.label} 收到约 ${delta} BNB`)
-          await maybeTelegram(settings, `✅ 到账 ${item.label}: +${delta} BNB`)
+          await notify('钱包卫士 · 到账', `${item.label} 收到约 ${delta} 币安币`)
+          await maybeTelegram(settings, `✅ 到账 ${item.label}：+${delta} 币安币`)
           chrome.storage.local.set({
             [`wg_last_deposit_${key}`]: { at: now, balance: balance.toString() },
           })
@@ -57,12 +57,12 @@ async function pollBalances(): Promise<void> {
             last && now - last.at < settings.sweepWindowSec * 1000
           if (withinSweepWindow) {
             await notify(
-              'Wallet Guard · 紧急',
-              `${item.label} 入账后短时间内转出约 ${drop} BNB，钱包可能已泄露！`,
+              '钱包卫士 · 紧急',
+              `${item.label} 入账后短时间内转出约 ${drop} 币安币，钱包可能已泄露！`,
             )
             await maybeTelegram(
               settings,
-              `🚨 疑似 sweep ${item.label}: -${drop} BNB，请立即停用该地址`,
+              `🚨 疑似扫币 ${item.label}：-${drop} 币安币，请立即停用该地址`,
             )
           }
         }

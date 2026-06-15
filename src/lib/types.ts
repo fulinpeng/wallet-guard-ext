@@ -1,5 +1,11 @@
 export type ChainId = 'bsc' | 'ethereum' | 'hyperliquid'
 
+export const CHAIN_LABELS: Record<ChainId, string> = {
+  bsc: '币安链',
+  ethereum: '以太坊',
+  hyperliquid: '超流动',
+}
+
 export interface TrustedAddress {
   id: string
   label: string

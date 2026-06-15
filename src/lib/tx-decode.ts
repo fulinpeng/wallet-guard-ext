@@ -24,13 +24,13 @@ export function parseSendTransaction(params: {
   let isApprove = false
   let isUnlimitedApprove = false
   let approveSpender: string | null = null
-  let methodLabel = 'transfer'
+  let methodLabel = '转账'
 
   if (data.length >= 10) {
     const selector = data.slice(0, 10).toLowerCase()
     if (selector === APPROVE_SELECTOR) {
       isApprove = true
-      methodLabel = 'approve'
+      methodLabel = '授权'
       try {
         const decoded = decodeFunctionData({
           abi: [
@@ -52,9 +52,9 @@ export function parseSendTransaction(params: {
         // keep defaults
       }
     } else if (selector === TRANSFER_SELECTOR) {
-      methodLabel = 'erc20.transfer'
+      methodLabel = '代币转账'
     } else if (data !== '0x') {
-      methodLabel = 'contract_call'
+      methodLabel = '合约调用'
     }
   }
 

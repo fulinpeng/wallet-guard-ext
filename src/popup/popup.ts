@@ -6,7 +6,7 @@ import {
   saveSettings,
   setClipboardSource,
 } from '../lib/storage'
-import type { ChainId, TrustedAddress } from '../lib/types'
+import { CHAIN_LABELS, type ChainId, type TrustedAddress } from '../lib/types'
 
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T
 
@@ -21,7 +21,7 @@ async function renderList(): Promise<void> {
   for (const item of items) {
     const li = document.createElement('li')
     li.innerHTML = `
-      <div class="addr-meta">${item.label} · ${item.chain.toUpperCase()}</div>
+      <div class="addr-meta">${item.label} · ${CHAIN_LABELS[item.chain]}</div>
       <div class="addr-value">${item.address}</div>
       <div class="actions">
         <button type="button" data-copy="${item.id}">复制地址</button>
