@@ -1,4 +1,11 @@
-import { extractAddressesFromText, findSimilarInList, isSimilarAddress, normalizeAddress } from '../lib/address'
+import {
+  extractAddressContextFromText,
+  extractAddressesFromText,
+  findSimilarInList,
+  isSimilarAddress,
+  normalizeAddress,
+  shortenAddress,
+} from '../lib/address'
 import { getClipboardSource, getSettings, listAddresses } from '../lib/storage'
 
 const MAX_VISIBLE_TEXT_LENGTH = 120_000
@@ -49,7 +56,8 @@ async function handlePaste(ev: ClipboardEvent): Promise<void> {
   }
 
   if (settings.pageVisibleAddressGuard) {
-    const visibleAddresses = collectVisibleAddressesFromPage()
+    const pageText = getPageVisibleText()
+    const visibleAddresses = collectVisibleAddressesFromPage(pageText)
     if (visibleAddresses.length > 0 && !visibleAddresses.includes(pastedAddr)) {
       const similarOnPage = findSimilarInList(pastedAddr, visibleAddresses)
       if (similarOnPage.length > 0) {
@@ -58,7 +66,7 @@ async function handlePaste(ev: ClipboardEvent): Promise<void> {
             '⚠️ Wallet Guard：疑似地址替换风险！',
             '',
             `当前粘贴：${pastedAddr}`,
-            `页面可见相似地址：${similarOnPage.slice(0, 3).join(', ')}`,
+            formatPageAddressHints(similarOnPage, pageText),
             '',
             '你粘贴的地址与页面展示地址不一致，仍要继续吗？',
           ].join('\n'),
@@ -101,9 +109,24 @@ export function checkDomAddressAgainstTrusted(domAddress: string, trusted: strin
   return !trusted.some((t) => isSimilarAddress(n, t) && n !== t.toLowerCase())
 }
 
-function collectVisibleAddressesFromPage(): string[] {
+function getPageVisibleText(): string {
   const text = document.body?.innerText ?? ''
-  if (!text) return []
-  const clipped = text.slice(0, MAX_VISIBLE_TEXT_LENGTH)
-  return extractAddressesFromText(clipped).slice(0, MAX_VISIBLE_ADDRESS_COUNT)
+  if (!text) return ''
+  return text.slice(0, MAX_VISIBLE_TEXT_LENGTH)
+}
+
+function collectVisibleAddressesFromPage(text?: string): string[] {
+  const source = text ?? getPageVisibleText()
+  if (!source) return []
+  return extractAddressesFromText(source).slice(0, MAX_VISIBLE_ADDRESS_COUNT)
+}
+
+function formatPageAddressHints(addresses: string[], pageText: string): string {
+  const lines: string[] = ['', '页面展示：']
+  for (const addr of addresses.slice(0, 3)) {
+    lines.push(`· ${shortenAddress(addr)}`)
+    const ctx = extractAddressContextFromText(pageText, addr)
+    if (ctx) lines.push(`  ${ctx}`)
+  }
+  return lines.join('\n')
 }

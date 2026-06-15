@@ -41,3 +41,30 @@ export function extractAddressesFromText(text: string): string[] {
   }
   return out
 }
+
+/** Snippet of visible text around the first occurrence of an address. */
+export function extractAddressContextFromText(
+  text: string,
+  address: string,
+  contextChars = 28,
+  maxLength = 96,
+): string | null {
+  const target = address.toLowerCase()
+  const re = /0x[a-fA-F0-9]{40}/g
+  let match: RegExpExecArray | null
+  while ((match = re.exec(text)) !== null) {
+    const n = normalizeAddress(match[0])
+    if (n !== target) continue
+    const raw = match[0]
+    const start = Math.max(0, match.index - contextChars)
+    const end = Math.min(text.length, match.index + raw.length + contextChars)
+    let snippet = text.slice(start, end).replace(/\s+/g, ' ').trim()
+    if (start > 0) snippet = `…${snippet}`
+    if (end < text.length) snippet = `${snippet}…`
+    if (snippet.length > maxLength) {
+      snippet = `${snippet.slice(0, maxLength - 1)}…`
+    }
+    return snippet
+  }
+  return null
+}
