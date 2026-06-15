@@ -1,0 +1,45 @@
+{
+  "manifest_version": 3,
+  "name": "Wallet Guard",
+  "description": "个人 Web3 地址守门员：地址簿、剪贴板守护、签名校验、链上监控",
+  "version": "0.1.0",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "Wallet Guard",
+    "default_popup": "src/popup/index.html"
+  },
+  "background": {
+    "service_worker": "src/background/service-worker.ts",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["src/content/main.ts"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  "permissions": [
+    "storage",
+    "notifications",
+    "alarms",
+    "clipboardRead",
+    "declarativeNetRequest",
+    "declarativeNetRequestFeedback"
+  ],
+  "host_permissions": ["https://*/*", "http://localhost/*"],
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "phishing",
+        "enabled": true,
+        "path": "rules/phishing-rules.json"
+      }
+    ]
+  }
+}

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wallet Guard</title>
+    <link rel="stylesheet" href="./popup.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Wallet Guard</h1>
+      <p class="sub">个人地址守门员</p>
+    </header>
+
+    <section class="card">
+      <h2>添加可信地址</h2>
+      <label>
+        备注
+        <input id="label" type="text" placeholder="例如：我的 BSC 收款" />
+      </label>
+      <label>
+        链
+        <select id="chain">
+          <option value="bsc">BSC</option>
+          <option value="ethereum">Ethereum</option>
+          <option value="hyperliquid">Hyperliquid</option>
+        </select>
+      </label>
+      <label>
+        地址
+        <input id="address" type="text" placeholder="0x..." />
+      </label>
+      <button id="add-btn" type="button">保存</button>
+    </section>
+
+    <section class="card">
+      <h2>地址簿</h2>
+      <ul id="address-list"></ul>
+    </section>
+
+    <section class="card">
+      <h2>设置</h2>
+      <label class="row">
+        <input id="clipboard-guard" type="checkbox" />
+        剪贴板守护
+      </label>
+      <label class="row">
+        <input id="similarity-guard" type="checkbox" />
+        地址投毒检测
+      </label>
+      <label class="row">
+        <input id="chain-watch" type="checkbox" />
+        BSC 链上监控
+      </label>
+      <label>
+        BSC RPC
+        <input id="rpc-bsc" type="text" />
+      </label>
+      <label>
+        Telegram Bot Token
+        <input id="tg-token" type="password" placeholder="可选" />
+      </label>
+      <label>
+        Telegram Chat ID
+        <input id="tg-chat" type="text" placeholder="可选" />
+      </label>
+      <button id="save-settings" type="button">保存设置</button>
+    </section>
+
+    <script type="module" src="./popup.ts"></script>
+  </body>
+</html>
