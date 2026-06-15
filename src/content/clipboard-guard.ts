@@ -1,6 +1,9 @@
 import { extractAddressesFromText, findSimilarInList, isSimilarAddress, normalizeAddress } from '../lib/address'
 import { getClipboardSource, getSettings, listAddresses } from '../lib/storage'
 
+const MAX_VISIBLE_TEXT_LENGTH = 120_000
+const MAX_VISIBLE_ADDRESS_COUNT = 150
+
 export function initClipboardGuard(): void {
   document.addEventListener(
     'paste',
@@ -45,6 +48,28 @@ async function handlePaste(ev: ClipboardEvent): Promise<void> {
     }
   }
 
+  const visibleAddresses = collectVisibleAddressesFromPage()
+  if (visibleAddresses.length > 0 && !visibleAddresses.includes(pastedAddr)) {
+    const similarOnPage = findSimilarInList(pastedAddr, visibleAddresses)
+    if (similarOnPage.length > 0) {
+      const ok = window.confirm(
+        [
+          '⚠️ Wallet Guard：疑似地址替换风险！',
+          '',
+          `当前粘贴：${pastedAddr}`,
+          `页面可见相似地址：${similarOnPage.slice(0, 3).join(', ')}`,
+          '',
+          '你粘贴的地址与页面展示地址不一致，仍要继续吗？',
+        ].join('\n'),
+      )
+      if (!ok) {
+        ev.preventDefault()
+        ev.stopPropagation()
+      }
+      return
+    }
+  }
+
   if (settings.similarityGuard) {
     const book = await listAddresses()
     const trusted = book.map((b) => b.address)
@@ -72,4 +97,11 @@ export function checkDomAddressAgainstTrusted(domAddress: string, trusted: strin
   const n = normalizeAddress(domAddress)
   if (!n) return true
   return !trusted.some((t) => isSimilarAddress(n, t) && n !== t.toLowerCase())
+}
+
+function collectVisibleAddressesFromPage(): string[] {
+  const text = document.body?.innerText ?? ''
+  if (!text) return []
+  const clipped = text.slice(0, MAX_VISIBLE_TEXT_LENGTH)
+  return extractAddressesFromText(clipped).slice(0, MAX_VISIBLE_ADDRESS_COUNT)
 }
