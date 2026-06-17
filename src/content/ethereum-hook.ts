@@ -2,6 +2,8 @@ import { parseSendTransaction } from '../lib/tx-decode'
 
 type EthereumRequest = (args: { method: string; params?: unknown[] }) => Promise<unknown>
 
+// 安装以太坊钩子
+// 在浏览器中安装一个钩子，当用户进行交易时，会弹出确认框，用户可以确认或拒绝
 export function installEthereumHook(): void {
   const attach = (provider: { request: EthereumRequest }) => {
     if ((provider as { __wgHooked?: boolean }).__wgHooked) return
