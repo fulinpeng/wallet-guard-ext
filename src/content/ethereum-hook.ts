@@ -17,7 +17,7 @@ export function installEthereumHook(): void {
         const lines = [
           '钱包卫士 · 签名确认',
           `类型：${parsed.methodLabel}`,
-          `接收地址：${parsed.to ?? '（无）'}`,
+          `接收地址：${parsed.to ?? '（无） '}`,
           `金额：${parsed.valueWei.toString()}`,
         ]
         if (parsed.isApprove) {
